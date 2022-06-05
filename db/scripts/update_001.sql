@@ -12,9 +12,6 @@ create table if not exists users
 (
     id       serial primary key,
     name     text,
-    email    varchar(255) unique,
+    email    varchar unique,
     password text
 );
-
-drop table items;
-drop table users;
