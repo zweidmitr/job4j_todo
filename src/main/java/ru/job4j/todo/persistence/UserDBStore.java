@@ -5,7 +5,6 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.User;
 
-import javax.persistence.NoResultException;
 import java.util.Optional;
 
 @Repository
@@ -23,7 +22,7 @@ public class UserDBStore implements DBStoreSession {
             e.printStackTrace();
             return Optional.empty();
         }
-        return Optional.ofNullable(user);
+        return Optional.of(user);
     }
 
     public boolean update(User user) {
@@ -35,7 +34,7 @@ public class UserDBStore implements DBStoreSession {
                                     + "where u.id = :fId")
                             .setParameter("name", user.getName())
                             .setParameter("email", user.getEmail())
-                            .setParameter("id", user.getId())
+                            .setParameter("fId", user.getId())
                             .setParameter("password", user.getPassword())
                             .executeUpdate();
                     return index != 0;
@@ -63,7 +62,7 @@ public class UserDBStore implements DBStoreSession {
                             .setParameter("email", email)
                             .setParameter("password", password);
                     try {
-                        optUser = Optional.of((User) query.getSingleResult());
+                        optUser = query.uniqueResultOptional();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

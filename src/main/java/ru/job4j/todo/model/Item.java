@@ -15,13 +15,12 @@ public class Item {
     private String description;
     private LocalDateTime created;
     private boolean done;
-
-    public Item() {
-    }
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Item() {
+    }
 
     public User getUser() {
         return user;
