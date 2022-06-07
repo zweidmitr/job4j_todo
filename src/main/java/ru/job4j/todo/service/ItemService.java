@@ -39,6 +39,10 @@ public class ItemService {
         return store.findByDone(isDone);
     }
 
+    public Item findByIdWithCategories(int id) {
+        return store.findByIdWitchCategories(id);
+    }
+
     public void setDone(int id) {
         store.setDone(id);
     }

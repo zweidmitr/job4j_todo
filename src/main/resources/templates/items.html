@@ -47,6 +47,7 @@
             <thead>
             <tr>
                 <th scope="col">Название</th>
+                <th scope="col">Категория</th>
                 <th scope="col">Дата</th>
                 <th scope="col">Статус</th>
                 <th scope="col">Автор</th>
@@ -57,6 +58,10 @@
                 <div class="button updateItem">
                     <td>
                         <a th:href="@{|/descriptionItem/${item.id}|}" th:text="${item.name}"/>
+                    </td>
+                    <td>
+                    <span th:each="c: ${item.getCategories()}"
+                          th:text="${c.name}"></span>
                     </td>
                     <td th:text="${item.created}"/>
                     <td>

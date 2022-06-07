@@ -26,22 +26,11 @@ public class ItemDBStore implements DBStoreSession {
         );
     }
 
-    public boolean update(Item item) {
+    public Item update(Item item) {
         return tx(
                 session -> {
-                    int index = session.createQuery("update Item i set "
-                                    + "i.name = :name, "
-                                    + "i.description = :description, "
-                                    + "i.created = :created, "
-                                    + "i.done = :done "
-                                    + "where i.id = :fId")
-                            .setParameter("name", item.getName())
-                            .setParameter("description", item.getDescription())
-                            .setParameter("created", item.getCreated())
-                            .setParameter("fId", item.getId())
-                            .setParameter("done", item.isDone())
-                            .executeUpdate();
-                    return index != 0;
+                    session.update(item);
+                    return item;
                 }, sf
         );
     }
@@ -70,13 +59,13 @@ public class ItemDBStore implements DBStoreSession {
 
     public List<Item> findAll() {
         return tx(
-                session -> session.createQuery("from Item ").list(), sf
+                session -> session.createQuery("select distinct i from Item i join fetch i.categories ").list(), sf
         );
     }
 
     public List<Item> findByDone(boolean isDone) {
         return tx(
-                session -> session.createQuery("from Item i where i.done = :isDone")
+                session -> session.createQuery("select distinct i from Item i join fetch i.categories where i.done = :isDone")
                         .setParameter("isDone", isDone).list(), sf
         );
     }
@@ -92,5 +81,14 @@ public class ItemDBStore implements DBStoreSession {
                     return index != 0;
                 }, sf
         );
+    }
+
+    public Item findByIdWitchCategories(int id) {
+        return tx(session -> {
+            return (Item) session.createQuery(
+                            "select distinct i from Item i left join fetch i.categories where i.id = :fId")
+                    .setParameter("fId", id)
+                    .getSingleResult();
+        }, sf);
     }
 }

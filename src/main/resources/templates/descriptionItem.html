@@ -42,29 +42,29 @@
             <div class="card-body">
                 <p>
                     <b>Название:</b>
+                    <span class="card-text" th:text="${item.name}"/>
                 </p>
-                <p class="card-text" th:text="${item.name}"/>
                 <p>
                     <b>Описание:</b>
+                    <span class="card-text" th:text="${item.description}"/>
                 </p>
-                <p class="card-text" th:text="${item.description}"/>
+                <p>
+                    <b>Категории:</b>
+                    <span th:each="c: ${item.getCategories()}" th:text="${c.name}"></span>
+                </p>
                 <p>
                     <b>Время последнего изменения:</b>
+                    <span class="card-text" th:text="${item.created}"/>
                 </p>
-                <p class="card-text" th:text="${item.created}"/>
                 <p>
                     <b>Автор:</b>
+                    <span class="card-text" th:text="${item.user.name}"/>
                 </p>
-                <p class="card-text" th:text="${item.user.name}"/>
                 <p>
                     <b>Статус:</b>
+                    <span th:if="${item.done}">Выполнено</span>
+                    <span th:if="${!item.done}">Не выполнено</span>
                 </p>
-                <span th:if="${item.done}">
-                    Выполнено
-                </span>
-                <span th:if="${!item.done}">
-                    Не выполнено
-                </span>
             </div>
         </div>
         <div class="btn-group">
