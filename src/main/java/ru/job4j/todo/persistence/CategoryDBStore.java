@@ -4,7 +4,10 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.Category;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class CategoryDBStore implements DBStoreSession {
@@ -25,5 +28,14 @@ public class CategoryDBStore implements DBStoreSession {
 
     public Category findById(int id) {
         return tx(session -> session.get(Category.class, id), sf);
+    }
+
+    public Set<Category> findCategoriesFromItem(List<Integer> list) {
+        Set<Category> categories = new HashSet<>();
+        for (int id : list) {
+            Category category = findById(id);
+            categories.add(category);
+        }
+        return categories;
     }
 }

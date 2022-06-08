@@ -5,6 +5,8 @@ import ru.job4j.todo.model.Category;
 import ru.job4j.todo.persistence.CategoryDBStore;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class CategoryService {
@@ -24,5 +26,9 @@ public class CategoryService {
 
     public Category findById(int id) {
         return store.findById(id);
+    }
+
+    public Set<Category> findCategoriesFromItem(List<Integer> list) {
+        return store.findCategoriesFromItem(list);
     }
 }

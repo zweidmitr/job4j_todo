@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @ThreadSafe
 @Controller
@@ -38,10 +39,7 @@ public class ItemController {
     @PostMapping("/saveItem")
     public String saveItem(@ModelAttribute Item item, HttpSession session,
                            @RequestParam(value = "listCategories", required = false) List<Integer> listCategories) {
-        List<Category> categories = new ArrayList<>();
-        for (int id : listCategories) {
-            categories.add(categoryService.findById(id));
-        }
+        Set<Category> categories = categoryService.findCategoriesFromItem(listCategories);
         User user = (User) session.getAttribute("user");
         item.setCreated(LocalDateTime.now().withNano(0));
         item.setUser(user);
@@ -70,10 +68,7 @@ public class ItemController {
     @PostMapping("/updateItem")
     public String updateItem(@ModelAttribute Item item, HttpSession session,
                              @RequestParam(value = "listCategories", required = false) List<Integer> listCategories) {
-        List<Category> categories = new ArrayList<>();
-        for (int id : listCategories) {
-            categories.add(categoryService.findById(id));
-        }
+        Set<Category> categories = categoryService.findCategoriesFromItem(listCategories);
         User user = (User) session.getAttribute("user");
         item.setUser(user);
         item.setCategories(categories);
