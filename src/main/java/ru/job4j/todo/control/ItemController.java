@@ -41,7 +41,7 @@ public class ItemController {
                            @RequestParam(value = "listCategories", required = false) List<Integer> listCategories) {
         Set<Category> categories = categoryService.findCategoriesFromItem(listCategories);
         User user = (User) session.getAttribute("user");
-        item.setCreated(LocalDateTime.now().withNano(0));
+//        item.setCreated(LocalDateTime.now().withNano(0));
         item.setUser(user);
         item.setCategories(categories);
         itemService.add(item);
@@ -72,7 +72,7 @@ public class ItemController {
         User user = (User) session.getAttribute("user");
         item.setUser(user);
         item.setCategories(categories);
-        item.setCreated(LocalDateTime.now().withNano(0));
+//        item.setCreated(LocalDateTime.now().withNano(0));
         itemService.update(item);
         return "redirect:/items";
     }
