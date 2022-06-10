@@ -11,8 +11,6 @@ import ru.job4j.todo.service.CategoryService;
 import ru.job4j.todo.service.ItemService;
 
 import javax.servlet.http.HttpSession;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -41,7 +39,6 @@ public class ItemController {
                            @RequestParam(value = "listCategories", required = false) List<Integer> listCategories) {
         Set<Category> categories = categoryService.findCategoriesFromItem(listCategories);
         User user = (User) session.getAttribute("user");
-//        item.setCreated(LocalDateTime.now().withNano(0));
         item.setUser(user);
         item.setCategories(categories);
         itemService.add(item);
@@ -72,7 +69,6 @@ public class ItemController {
         User user = (User) session.getAttribute("user");
         item.setUser(user);
         item.setCategories(categories);
-//        item.setCreated(LocalDateTime.now().withNano(0));
         itemService.update(item);
         return "redirect:/items";
     }
